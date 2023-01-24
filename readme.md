@@ -13,3 +13,8 @@
 - Twillio setup
 - Swagger for api documentation
 - JWT authentication
+
+### Prisma setup and migrate
+
+- npx prisma generate
+- npx prisma migrate dev --name=nameofmigration

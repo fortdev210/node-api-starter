@@ -4,6 +4,8 @@ import cors from "cors";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 
+import authRouter from "./api/auth/auth.route";
+
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
@@ -16,6 +18,9 @@ app.get("/", (req: Request, res: Response) => {
   //todo remove
   res.send("TRIM Express App");
 });
+
+// add router here
+app.use("/v1/auth/", authRouter);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

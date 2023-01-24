@@ -11,11 +11,23 @@ datasource db {
 }
 
 model User {
-  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email             String
-  first_name        String
-  last_name         String
-  is_email_verified Boolean  @default(false)
-  created_at        DateTime @default(now()) @db.Timestamptz(3)
-  updated_at        DateTime @updatedAt @db.Timestamptz(3)
+  id                String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email             String         @unique
+  first_name        String?
+  last_name         String?
+  password          String
+  is_email_verified Boolean        @default(false)
+  created_at        DateTime       @default(now()) @db.Timestamptz(3)
+  updated_at        DateTime       @updatedAt @db.Timestamptz(3)
+  RefreshToken      RefreshToken[]
+}
+
+model RefreshToken {
+  id          String   @id @unique @default(uuid())
+  hashedToken String
+  userId      String   @db.Uuid
+  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
