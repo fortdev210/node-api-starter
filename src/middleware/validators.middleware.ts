@@ -2,7 +2,13 @@ import { z, AnyZodObject } from "zod";
 import { Request, Response, NextFunction } from "express";
 
 export const UserSignUpValidator = z.object({
-  email: z.string({ required_error: "Email is required" }).email().trim(),
+  email: z
+    .string({
+      required_error: "Email is required",
+      invalid_type_error: "Email is not valid.",
+    })
+    .email()
+    .trim(),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
   password: z
@@ -21,11 +27,14 @@ export const validate =
       });
       return next();
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.log(error.issues);
-        return res.status(400).json(error);
-      } else {
-        return res.status(400).json(error);
+      let err = error;
+
+      if (err instanceof z.ZodError) {
+        err = err.issues.map((e) => ({ path: e.path[0], message: e.message }));
       }
+      return res.status(409).json({
+        status: "failed",
+        error: err,
+      });
     }
   };

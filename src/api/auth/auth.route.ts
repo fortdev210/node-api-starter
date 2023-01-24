@@ -1,6 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import { signUpUser } from "./auth.controller";
-import { UserSignUpValidator, validate } from "../../utils/validators";
+import {
+  UserSignUpValidator,
+  validate,
+} from "../../middleware/validators.middleware";
 
 const router = express.Router();
 
