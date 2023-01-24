@@ -4,10 +4,12 @@
   "description": "trim-nodejs-api-starter",
   "main": "server.ts",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "start": "node dist/server.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "start": "node dist/src/server.js",
+    "start4000": "PORT=4000 node dist/src/server.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/server.js\"",
+    "debug": "concurrently \"npx tsc --watch\" \"nodemon --inspect -q dist/src/server.js\""
   },
   "repository": {
     "type": "git",
