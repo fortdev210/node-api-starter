@@ -19,8 +19,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("TRIM Express App");
 });
 
-// add router here
-app.use("/v1/auth/", authRouter);
+// // add router here
+app.use("/api/v1/auth/", authRouter);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

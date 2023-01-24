@@ -6,7 +6,7 @@ import {
   createUserByEmailAndPassword,
   TUser,
 } from "../user/user.service";
-import { CustomError, ErrorCode } from "../../middleware/error.middleware";
+import { CustomError, ErrorCode } from "../../utils/custom-error";
 
 export const signUpUser = async (user: TUser) => {
   const { email, password, firstName, lastName } = user;
