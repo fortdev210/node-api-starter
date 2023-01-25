@@ -1,10 +1,11 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import morgan from "morgan";
 import bodyParser from "body-parser";
+import cors from "cors";
+import dotenv from "dotenv";
+import express, { Express, Request, Response } from "express";
+import morgan from "morgan";
 
 import authRouter from "./api/auth/auth.route";
+import logger from "./logging";
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -23,5 +24,5 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/auth/", authRouter);
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  logger.info(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

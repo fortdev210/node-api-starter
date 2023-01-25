@@ -1,6 +1,7 @@
-import bcrypt from "bcrypt";
-import db from "../../utils/db";
 import { User } from "@prisma/client";
+import bcrypt from "bcrypt";
+
+import db from "../../utils/db";
 
 export type TUser = {
   email: string;

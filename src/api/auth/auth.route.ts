@@ -1,9 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
-import { signUpUser } from "./auth.controller";
+import express, { NextFunction, Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+
 import {
   UserSignUpValidator,
   validate,
 } from "../../middleware/validators.middleware";
+import { signUpUser } from "./auth.controller";
 
 const router = express.Router();
 
@@ -21,12 +23,12 @@ router.post(
         lastName,
       });
 
-      res.status(201).json({
+      res.status(StatusCodes.CREATED).json({
         accessToken,
         refreshToken,
       });
     } catch (err) {
-      next(err);
+      res.status(StatusCodes.BAD_REQUEST).send(err);
     }
   }
 );
