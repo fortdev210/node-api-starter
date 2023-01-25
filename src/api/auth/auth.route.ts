@@ -1,11 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes, ReasonPhrases } from "http-status-codes";
 
 import {
   UserSignUpValidator,
+  UserLogInValidator,
   validate,
 } from "../../middleware/validators.middleware";
-import { signUpUser } from "./auth.controller";
+import { register, logIn } from "./auth.controller";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.post(
     try {
       const { email, password, firstName, lastName } = req.body;
 
-      const { accessToken, refreshToken } = await signUpUser({
+      const { accessToken, refreshToken } = await register({
         email,
         password,
         firstName,
@@ -29,6 +30,24 @@ router.post(
       });
     } catch (err) {
       res.status(StatusCodes.BAD_REQUEST).send(err);
+    }
+  }
+);
+
+router.post(
+  "/login",
+  validate(UserLogInValidator),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.body;
+      const { accessToken, refreshToken } = await logIn({ email, password });
+
+      res.status(StatusCodes.OK).json({
+        accessToken,
+        refreshToken,
+      });
+    } catch (error) {
+      res.status(StatusCodes.BAD_REQUEST).send(error);
     }
   }
 );
