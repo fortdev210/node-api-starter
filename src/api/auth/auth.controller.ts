@@ -18,7 +18,7 @@ import {
 } from "../user/user.service";
 
 const JWT_REFRESH_SECRET =
-  process.env.JWT_REFRESH_SECRET || "JWT_REFRESH_SECRET";
+  process.env.JWT_REFRESH_SECRET_KEY || "JWT_REFRESH_SECRET_KEY";
 
 export const register = async (user: TUser) => {
   const { email, password, firstName, lastName } = user;

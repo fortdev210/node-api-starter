@@ -1,9 +1,10 @@
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
 import { User } from "@prisma/client";
+import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
-const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "secretkey";
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "jwtrefreshsecret";
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET_KEY || "secretkey";
+const JWT_REFRESH_SECRET =
+  process.env.JWT_REFRESH_SECRET_KEY || "jwtrefreshsecret";
 
 export const generateAccessToken = (user: User) => {
   return jwt.sign({ userId: user.id }, JWT_ACCESS_SECRET, {

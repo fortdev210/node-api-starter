@@ -1,19 +1,30 @@
-import jwt, { Secret, JwtPayload } from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import jwt, { JwtPayload, Secret } from "jsonwebtoken";
+
 import { CustomError, ErrorCode } from "../utils/custom-error";
 
-export const SECRET_KEY: Secret = "your-secret-key-here";
+export const SECRET_KEY =
+  process.env.JWT_ACCESS_SECRET_KEY || "JWT_ACCESS_SECRET_KEY";
 
 export interface CustomRequest extends Request {
   token: string | JwtPayload;
 }
 
-export const auth = async (req: Request, res: Response, next: NextFunction) => {
+export const isAuthenticated = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
-      throw new CustomError(400, ErrorCode.UNAUTHORIZED, "Not authorized");
+      throw new CustomError(
+        StatusCodes.UNAUTHORIZED,
+        ErrorCode.UNAUTHORIZED,
+        "Not authorized"
+      );
     }
 
     const decoded = jwt.verify(token, SECRET_KEY);
