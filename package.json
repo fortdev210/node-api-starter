@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "start": "node dist/server.js",
-    "start4000": "PORT=4000 node dist/src/server.js",
+    "start4000": "PORT=4000 node dist/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
     "debug": "concurrently \"npx tsc --watch\" \"nodemon --inspect -q dist/server.js\""
   },

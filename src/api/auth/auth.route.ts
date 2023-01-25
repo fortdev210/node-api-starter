@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
-import { StatusCodes, ReasonPhrases } from "http-status-codes";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 import {
-  UserSignUpValidator,
   UserLogInValidator,
+  UserSignUpValidator,
   validate,
 } from "../../middleware/validators.middleware";
-import { register, logIn } from "./auth.controller";
+import { logIn, register, tokenRefresh } from "./auth.controller";
 
 const router = express.Router();
 
@@ -48,6 +48,23 @@ router.post(
       });
     } catch (error) {
       res.status(StatusCodes.BAD_REQUEST).send(error);
+    }
+  }
+);
+
+router.post(
+  "/refreshToken",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { token } = req.body;
+      const { accessToken, refreshToken } = await tokenRefresh(token);
+
+      res.status(StatusCodes.OK).json({
+        accessToken,
+        refreshToken,
+      });
+    } catch (error) {
+      res.status(StatusCodes.UNAUTHORIZED).send(error);
     }
   }
 );

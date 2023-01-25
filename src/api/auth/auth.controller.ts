@@ -1,14 +1,24 @@
+import bcrypt from "bcrypt";
+import { StatusCodes } from "http-status-codes";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
+
 import { CustomError, ErrorCode } from "../../utils/custom-error";
-import { generateTokens } from "../../utils/jwt";
-import { addRefreshTokenToWhitelist } from "../auth/auth.service";
+import { generateTokens, hashToken } from "../../utils/jwt";
+import {
+  addRefreshTokenToWhitelist,
+  deleteRefreshToken,
+  findRefreshTokenById,
+} from "../auth/auth.service";
 import {
   createUserByEmailAndPassword,
   findUserByEmail,
+  findUserById,
   TUser,
 } from "../user/user.service";
-import bcrypt from "bcrypt";
-import { StatusCodes } from "http-status-codes";
+
+const JWT_REFRESH_SECRET =
+  process.env.JWT_REFRESH_SECRET || "JWT_REFRESH_SECRET";
 
 export const register = async (user: TUser) => {
   const { email, password, firstName, lastName } = user;
@@ -77,6 +87,57 @@ export const logIn = async ({
     jti,
     refreshToken,
     userId: existingUser.id,
+  });
+
+  return {
+    accessToken,
+    refreshToken,
+  };
+};
+
+export const tokenRefresh = async (refreshToken: string) => {
+  const payload = jwt.verify(refreshToken, JWT_REFRESH_SECRET) as JwtPayload;
+
+  const savedRefreshToken = await findRefreshTokenById(payload.jti as string);
+
+  if (!savedRefreshToken || savedRefreshToken.revoked === true) {
+    throw new CustomError(
+      StatusCodes.UNAUTHORIZED,
+      ErrorCode.UNAUTHORIZED,
+      "Unauthorized."
+    );
+  }
+
+  const hashedToken = hashToken(refreshToken);
+  if (hashedToken !== savedRefreshToken.hashedToken) {
+    throw new CustomError(
+      StatusCodes.UNAUTHORIZED,
+      ErrorCode.UNAUTHORIZED,
+      "Unauthorized."
+    );
+  }
+
+  const user = await findUserById(payload.userId);
+  if (!user) {
+    throw new CustomError(
+      StatusCodes.UNAUTHORIZED,
+      ErrorCode.UNAUTHORIZED,
+      "Unauthorized."
+    );
+  }
+
+  await deleteRefreshToken(savedRefreshToken.id);
+
+  const jti = uuidv4();
+  const { accessToken, refreshToken: newRefreshToken } = generateTokens(
+    user,
+    jti
+  );
+
+  await addRefreshTokenToWhitelist({
+    jti,
+    refreshToken: newRefreshToken,
+    userId: user.id,
   });
 
   return {
