@@ -4,3 +4,4 @@ node_modules
 .env
 /src/logs
 /prisma/migrations
+/src/errors
