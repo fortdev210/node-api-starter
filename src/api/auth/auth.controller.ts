@@ -1,12 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
+
+import logger from "../../logging";
+import { CustomError, ErrorCode } from "../../utils/custom-error";
 import { generateTokens } from "../../utils/jwt";
 import { addRefreshTokenToWhitelist } from "../auth/auth.service";
 import {
-  findUserByEmail,
   createUserByEmailAndPassword,
+  findUserByEmail,
   TUser,
 } from "../user/user.service";
-import { CustomError, ErrorCode } from "../../utils/custom-error";
 
 export const signUpUser = async (user: TUser) => {
   const { email, password, firstName, lastName } = user;
@@ -34,6 +36,8 @@ export const signUpUser = async (user: TUser) => {
     refreshToken,
     userId: createdUser.id,
   });
+
+  logger.info("User created: ");
 
   return {
     accessToken,
