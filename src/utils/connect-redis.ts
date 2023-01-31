@@ -12,7 +12,7 @@ const connectRedis = async () => {
   try {
     await redisClient.connect();
     logging.info("Connected to redis successfully");
-    redisClient.set("try", "Welcome to Express and TypeScript with Prisma");
+    redisClient.set("try", "Welcome to TRIM API starter.");
   } catch (error) {
     logging.error("Failed to connect to Redis", error);
     setTimeout(connectRedis, 5000);
