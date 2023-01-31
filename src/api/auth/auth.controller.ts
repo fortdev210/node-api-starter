@@ -4,11 +4,12 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 
 import { CustomError, ErrorCode } from "../../utils/custom-error";
-import { generateTokens, hashToken } from "../../utils/jwt";
 import {
   addRefreshTokenToWhitelist,
   deleteRefreshToken,
   findRefreshTokenById,
+  generateTokens,
+  hashToken,
 } from "../auth/auth.service";
 import {
   createUserByEmailAndPassword,
