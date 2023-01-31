@@ -4,11 +4,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
-
+import swaggerUi from "swagger-ui-express";
 import authRouter from "./api/auth/auth.route";
 import logger from "./logging";
 import redisClient from "./utils/connect-redis";
 import validateEnv from "./utils/validate-env";
+
+import swaggerDoc from "./swagger.json";
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
@@ -33,6 +35,8 @@ async function bootstrap() {
 
   // add router here
   app.use("/api/v1/auth/", authRouter);
+
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
   app.listen(port, () => {
     logger.info(`⚡️[server]: Server is running at http://localhost:${port}`);
