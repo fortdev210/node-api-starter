@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 
-import { CustomError, ErrorCode } from "../utils/custom-error";
+import { CustomError, ErrorCode } from "./error.middleware";
 
 export const SECRET_KEY =
   process.env.JWT_ACCESS_SECRET_KEY || "JWT_ACCESS_SECRET_KEY";

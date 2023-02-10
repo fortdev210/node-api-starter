@@ -9,7 +9,9 @@
     "start": "node dist/server.js",
     "start4000": "PORT=4000 node dist/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
-    "debug": "concurrently \"npx tsc --watch\" \"nodemon --inspect -q dist/server.js\""
+    "debug": "concurrently \"npx tsc --watch\" \"nodemon --inspect -q dist/server.js\"",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev"
   },
   "repository": {
     "type": "git",

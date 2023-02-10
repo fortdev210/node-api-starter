@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 
-import { CustomError, ErrorCode } from "../../../utils/custom-error";
+import { CustomError, ErrorCode } from "../../../middleware/error.middleware";
 import {
   addRefreshTokenToWhitelist,
   deleteRefreshToken,

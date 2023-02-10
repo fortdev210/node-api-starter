@@ -1,4 +1,4 @@
-import * as sgMail from "@sendgrid/mail";
+import sgMail from "@sendgrid/mail";
 import logger from "../logger";
 
 const apiKey = process.env.SENDGRID_API_KEY || "SENDGRID_API_KEY";
