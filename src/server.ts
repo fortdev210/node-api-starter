@@ -6,7 +6,7 @@ import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import authRouter from "./api/v1/auth/auth.route";
-import logger from "./logging";
+import logger from "./services/logger";
 import redisClient from "./utils/connect-redis";
 import validateEnv from "./utils/validate-env";
 

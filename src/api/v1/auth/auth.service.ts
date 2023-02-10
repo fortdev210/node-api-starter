@@ -88,3 +88,5 @@ export const generateTokens = (user: User, jti: string) => {
     refreshToken,
   };
 };
+
+export const sendVerificationCodeToEmail = (email: string) => {};

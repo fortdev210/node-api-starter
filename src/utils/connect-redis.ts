@@ -1,6 +1,6 @@
 import { createClient } from "redis";
 
-import logging from "../logging";
+import logging from "../services/logger";
 
 const redisUrl = "redis://localhost:6379";
 

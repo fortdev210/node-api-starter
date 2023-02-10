@@ -1,11 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
-import {
-  UserLogInValidator,
-  UserSignUpValidator,
-  validate,
-} from "../../../middleware/validators.middleware";
+import { UserLogInValidator, UserSignUpValidator, validate } from "../../../middleware/validators.middleware";
 import { logIn, register, tokenRefresh } from "./auth.controller";
 
 const router = express.Router();
@@ -53,7 +49,7 @@ router.post(
 );
 
 router.post(
-  "/refreshToken",
+  "/refresh-token",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { token } = req.body;
