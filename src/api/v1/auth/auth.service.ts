@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
-import db from "../../utils/db";
+import db from "../../../utils/db";
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET_KEY || "secretkey";
 const JWT_REFRESH_SECRET =

@@ -5,7 +5,7 @@ import {
   UserLogInValidator,
   UserSignUpValidator,
   validate,
-} from "../../middleware/validators.middleware";
+} from "../../../middleware/validators.middleware";
 import { logIn, register, tokenRefresh } from "./auth.controller";
 
 const router = express.Router();
