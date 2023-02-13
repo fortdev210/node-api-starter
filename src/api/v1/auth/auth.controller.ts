@@ -21,8 +21,7 @@ import {
 } from "./auth.service";
 import { sendPasswordResetEmail } from "../../../services/email/email.service";
 
-const JWT_SECRET_KEY =
-  process.env.JWT_REFRESH_SECRET_KEY || "JWT_REFRESH_SECRET_KEY";
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "JWT_SECRET_KEY";
 
 export const register = async (
   req: Request,
@@ -173,7 +172,7 @@ export const tokenRefresh = async (
   }
 };
 
-export const confirmPasswordResetByEmail = async (
+export const requestPasswordReset = async (
   req: Request,
   res: Response,
   next: NextFunction

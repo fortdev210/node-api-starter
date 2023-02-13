@@ -1,5 +1,4 @@
-import { NextFunction, Request, Response } from "express";
-import { AnyZodObject, z } from "zod";
+import { z } from "zod";
 
 export const UserSignUpSchema = z.object({
   body: z.object({
@@ -33,25 +32,21 @@ export const UserLogInSchema = z.object({
   }),
 });
 
-export const validate =
-  (schema: AnyZodObject) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await schema.parseAsync({
-        body: req.body,
-        query: req.query,
-        params: req.params,
-      });
-      return next();
-    } catch (error) {
-      let err = error;
+export const PasswordResetRequestSchema = z.object({
+  body: z.object({
+    email: z
+      .string({
+        required_error: "Email is required",
+        invalid_type_error: "Email is not valid.",
+      })
+      .email()
+      .trim(),
+  }),
+});
 
-      if (err instanceof z.ZodError) {
-        err = err.issues.map((e) => ({ path: e.path[0], message: e.message }));
-      }
-      return res.status(400).json({
-        status: "failed",
-        error: err,
-      });
-    }
-  };
+export const ResetPasswordSchema = z.object({
+  body: z.object({
+    password: z.string({ required_error: "Password is required" }),
+    token: z.string({ required_error: "Token is required" }),
+  }),
+});
