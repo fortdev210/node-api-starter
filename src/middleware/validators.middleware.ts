@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AnyZodObject, z } from "zod";
 
-export const UserSignUpValidator = z.object({
+export const UserSignUpSchema = z.object({
   body: z.object({
     email: z
       .string({
@@ -18,7 +18,7 @@ export const UserSignUpValidator = z.object({
   }),
 });
 
-export const UserLogInValidator = z.object({
+export const UserLogInSchema = z.object({
   body: z.object({
     email: z
       .string({

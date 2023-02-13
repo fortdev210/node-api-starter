@@ -18,5 +18,26 @@ export async function sendTextEmail(
       subject: subject,
       text: description,
     });
-  } catch (error) {}
+  } catch (error) {
+    logger.error(error);
+    throw new Error("Error sending text email");
+  }
+}
+
+export async function sendPasswordResetEmail(email: string, token: string) {
+  const subject = "Password Reset";
+  const description = "Click this link below to reset your password. \n";
+  const passwordResetLink =
+    process.env.FRONTEND_URL + `/reset-password/?token=${token}`;
+
+  try {
+    await sgMail.send({
+      to: email,
+      from: apiEmail,
+      subject: subject,
+      text: description + passwordResetLink,
+    });
+  } catch (error) {
+    throw new Error("Error sending text email");
+  }
 }

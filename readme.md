@@ -18,3 +18,8 @@
 
 - npx prisma generate
 - npx prisma migrate dev --name=nameofmigration
+
+#### Create migrations
+
+- Open terminal and use next command
+- MIGRATION_NAME="nameofmigration" npm run db:migrate

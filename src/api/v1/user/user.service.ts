@@ -37,6 +37,31 @@ export const findUserById = (id: string) => {
   });
 };
 
+export const saveResetTokenInUser = (id: string, resetToken: string) => {
+  return db.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      reset_token: resetToken,
+      reset_token_expires_at: new Date(Date.now() + 3600000),
+    },
+  });
+};
+
+export const updateUserPassword = (id: string, password: string) => {
+  const newPassword = bcrypt.hashSync(password, 12);
+
+  return db.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      password: newPassword,
+    },
+  });
+};
+
 export const sendVerificationCodeToEmail = async (email: string) => {
   const code = generateVerificationCode();
 
@@ -49,7 +74,7 @@ export const sendVerificationCodeToEmail = async (email: string) => {
   if (!user) {
     throw new CustomError(
       StatusCodes.BAD_REQUEST,
-      ErrorCode.CUSTOMER_NOT_FOUND,
+      ErrorCode.USER_NOT_FOUND,
       "User with that email not found."
     );
   }
@@ -79,7 +104,7 @@ export const checkVerificationCode = async (email: string, code: string) => {
   if (!user) {
     throw new CustomError(
       StatusCodes.BAD_REQUEST,
-      ErrorCode.CUSTOMER_NOT_FOUND,
+      ErrorCode.USER_NOT_FOUND,
       "User with that email not found."
     );
   }
