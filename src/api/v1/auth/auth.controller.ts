@@ -101,7 +101,7 @@ export const logIn = async (
       userId: existingUser.id,
     });
 
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
       accessToken,
       refreshToken,
     });

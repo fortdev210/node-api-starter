@@ -21,35 +21,25 @@ dotenv.config();
 validateEnv();
 const prisma = new PrismaClient();
 
-async function bootstrap() {
-  app.use(cors());
-  app.use(bodyParser.json());
-  app.use(morgan("combined")); //todo remove in prod?
+app.use(cors());
+app.use(bodyParser.json());
+app.use(morgan("combined")); //todo remove in prod?
 
-  // api end point health check
-  app.get("/api/v1/healthcheck", async (req: Request, res: Response) => {
-    const message = await redisClient.get("try");
-    res.status(200).json({
-      status: "success",
-      message,
-    });
+// api end point health check
+app.get("/api/v1/healthcheck", async (req: Request, res: Response) => {
+  const message = await redisClient.get("try");
+  res.status(200).json({
+    status: "success",
+    message,
   });
+});
 
-  // add router here
-  app.use("/api/v1/auth/", authRouter);
-  app.use("/api/v1/user", userRouter);
+// add router here
+app.use("/api/v1/auth/", authRouter);
+app.use("/api/v1/user", userRouter);
 
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-  app.use(errorMiddleware);
-  app.listen(port, () => {
-    logger.info(`⚡️[server]: Server is running at http://localhost:${port}`);
-  });
-}
-
-bootstrap()
-  .catch((err) => {
-    throw err;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use(errorMiddleware);
+export const server = app.listen(port, () => {
+  logger.info(`⚡️[server]: Server is running at http://localhost:${port}`);
+});
