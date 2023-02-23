@@ -1,7 +1,6 @@
 import supertest from "supertest";
 import { server } from "../src/server";
 import { faker } from "@faker-js/faker";
-import redisClient from "../src/utils/connect-redis";
 
 describe("TRIM API STARTER AUTHENTICATION", () => {
   beforeAll(() => {
@@ -27,7 +26,7 @@ describe("TRIM API STARTER AUTHENTICATION", () => {
         email,
         password: "Test123!",
       });
-    console.log("Response ", response);
+
     expect(response.status).toBe(201);
     expect(response.body).toMatchObject({
       accessToken: expect.any(String),
