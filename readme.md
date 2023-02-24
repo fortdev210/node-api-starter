@@ -22,13 +22,14 @@
 #### Create migrations
 
 - Open terminal and use next command
-- MIGRATION_NAME="nameofmigration" npm run db:migrate
+- MIGRATION_NAME="nameofmigration" `yarn db:migrate`
+- `yarn db:generate`
 
 ### Run Tests Locally
 
 First ensure you have Docker running.
 
 ```bash
-docker compose up
-npm run dev
+`docker compose up`
+`yarn dev`
 ```
